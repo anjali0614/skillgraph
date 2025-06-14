@@ -20,32 +20,61 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public UserDTO registerUser(User user) {
-        // Encrypt the password
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+    public UserDTO registerUser(UserDTO userDTO) {
+        // Check for existing username
+        if (userRepository.findByUsername(userDTO.getUsername()).isPresent()) {
+            throw new RuntimeException("Username already exists");
+        }
+
+        // Check for existing email
+        if (userRepository.findByEmail(userDTO.getEmail()).isPresent()) {
+            throw new RuntimeException("Email already exists");
+        }
+
+        // Convert DTO to Entity
+        User user = new User();
+        user.setUsername(userDTO.getUsername());
+        user.setEmail(userDTO.getEmail());
+        user.setFullName(userDTO.getFullName());
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));  // encode password
 
         // Save user to DB
         User savedUser = userRepository.save(user);
 
-        // Convert to DTO and return
-        return new UserDTO(savedUser.getId(), savedUser.getFullName(), savedUser.getEmail());
+        // Return response DTO (optional fields based on your constructor)
+        return new UserDTO(savedUser.getId(), savedUser.getUsername(), savedUser.getEmail());
     }
 
     public Optional<User> getUserByEmail(String email) {
         return userRepository.findByEmail(email);
 
     }
-    public User loginUser(String username, String rawPassword) {
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        if (passwordEncoder.matches(rawPassword, user.getPassword())) {
-            return user;
+    public User loginUser(String identifier, String rawPassword) {
+        Optional<User> optionalUser;
+
+        if (identifier.contains("@")) {
+            optionalUser = userRepository.findByEmail(identifier);
         } else {
-            throw new BadCredentialsException("Invalid password");
+            optionalUser = userRepository.findByUsername(identifier);
         }
-    }
 
+        if (optionalUser.isEmpty()) {
+            throw new RuntimeException("User not found");
+        }
+
+        User user = optionalUser.get();
+
+        if (!passwordEncoder.matches(rawPassword, user.getPassword())) {
+            throw new RuntimeException("Invalid password");
+        }
+        if (identifier == null || rawPassword == null) {
+            throw new RuntimeException("Identifier or password is missing");
+        }
+
+        return user;
+
+    }
 }
 
 

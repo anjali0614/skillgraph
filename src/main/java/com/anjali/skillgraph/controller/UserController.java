@@ -19,7 +19,12 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody @Valid UserDTO userDTO) {
+//    public ResponseEntity<User> registerUser(@RequestBody User user) {
+//        User registeredUser = userService.register(user);
+//        return new ResponseEntity<>(registeredUser, HttpStatus.CREATED);
+//    }
+    public ResponseEntity<String> registerUser(@RequestBody UserDTO userDTO) {
+        userService.registerUser(userDTO);
         return ResponseEntity.ok("User registered successfully");
     }
 
@@ -27,13 +32,13 @@ public class UserController {
     public ResponseEntity<?> loginUser(@RequestBody LoginDTO loginDTO) {
         try {
             // Extracting username and password from DTO
-            String username = loginDTO.getUsername();
+            String identifier = loginDTO.getIdentifier();
             String password = loginDTO.getPassword();
 
-            User user = userService.loginUser(username, password);
+            User user = userService.loginUser(loginDTO.getIdentifier(), loginDTO.getPassword());
 
-            return ResponseEntity.ok("Login successful: " + user.getusername());
-        } catch (Exception e) {
+            return ResponseEntity.ok("Login successful: " + user.getFullName());
+        } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
     }

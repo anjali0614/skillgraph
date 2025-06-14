@@ -4,17 +4,20 @@ public class UserDTO {
     private Long id;
     private String fullName;
     private String email;
+    private String username;  // ✅ Add this
+    private String password;  // ✅ Add this
 
-    public UserDTO() {
-    }
+    // Default constructor
+    public UserDTO() {}
 
+    // Constructor for returning saved user info
     public UserDTO(Long id, String fullName, String email) {
         this.id = id;
         this.fullName = fullName;
         this.email = email;
     }
 
-    // Getters and Setters
+    // All Getters and Setters
     public Long getId() {
         return id;
     }
@@ -37,6 +40,18 @@ public class UserDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }
 
