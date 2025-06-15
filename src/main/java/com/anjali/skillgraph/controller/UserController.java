@@ -1,5 +1,6 @@
 package com.anjali.skillgraph.controller;
 
+import java.util.List;
 import com.anjali.skillgraph.dto.LoginDTO;
 import com.anjali.skillgraph.dto.UserDTO;
 import com.anjali.skillgraph.model.User;
@@ -36,6 +37,19 @@ public class UserController {
             String password = loginDTO.getPassword();
 
             User user = userService.loginUser(loginDTO.getIdentifier(), loginDTO.getPassword());
+
+            UserDTO userDTO = new UserDTO();
+            userDTO.setId(user.getId());
+            userDTO.setFullName(user.getFullName());
+            userDTO.setEmail(user.getEmail());
+            userDTO.setUsername(user.getUsername());
+
+            // ✅ Convert Skill list to List<String>
+            List<String> skillNames = user.getSkills().stream()
+                    .map(skill -> skill.getName())
+                    .toList();
+
+            userDTO.setSkills(skillNames);
 
             return ResponseEntity.ok("Login successful: " + user.getFullName());
         } catch (RuntimeException e) {
