@@ -1,6 +1,7 @@
 package com. anjali.skillgraph.model;
 
 import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -20,6 +21,13 @@ public class User {
     private String email;
 
     private String password;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Skill> skills;
+
+    public List<Skill> getSkills() {
+        return skills;
+    }
 
     // Default constructor
     public User() {}

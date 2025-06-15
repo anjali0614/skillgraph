@@ -1,11 +1,15 @@
 package com.anjali.skillgraph.dto;
 
+import java.util.List;
+
 public class UserDTO {
     private Long id;
     private String fullName;
     private String email;
-    private String username;  // ✅ Add this
-    private String password;  // ✅ Add this
+    private String username;// ✅ Add this
+    private String password;
+
+    private List<String> skills;// ✅ Add this
 
     // Default constructor
     public UserDTO() {}
@@ -52,6 +56,14 @@ public class UserDTO {
 
     public String getPassword() {
         return password;
+    }
+
+    public List<String> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(List<String> skills) {
+        this.skills = skills;
     }
 }
 
