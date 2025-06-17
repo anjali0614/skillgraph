@@ -9,7 +9,7 @@ public class UserDTO {
     private String username;// ✅ Add this
     private String password;
 
-    private List<String> skills;// ✅ Add this
+    private List<SkillDTO> skills;// ✅ Add this
 
     // Default constructor
     public UserDTO() {}
@@ -58,11 +58,11 @@ public class UserDTO {
         return password;
     }
 
-    public List<String> getSkills() {
+    public List<SkillDTO> getSkills() {
         return skills;
     }
 
-    public void setSkills(List<String> skills) {
+    public void setSkills(List<SkillDTO> skills) {
         this.skills = skills;
     }
 }

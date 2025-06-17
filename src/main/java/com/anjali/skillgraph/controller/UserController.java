@@ -3,11 +3,13 @@ package com.anjali.skillgraph.controller;
 import java.util.List;
 import com.anjali.skillgraph.dto.LoginDTO;
 import com.anjali.skillgraph.dto.UserDTO;
+import com.anjali.skillgraph.dto.SkillDTO;
 import com.anjali.skillgraph.model.User;
 import com.anjali.skillgraph.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
+import java.util.stream.Collectors;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -45,11 +47,11 @@ public class UserController {
             userDTO.setUsername(user.getUsername());
 
             // ✅ Convert Skill list to List<String>
-            List<String> skillNames = user.getSkills().stream()
-                    .map(skill -> skill.getName())
-                    .toList();
+            List<SkillDTO> skillDTOs = user.getSkills().stream()
+                    .map(skill -> new SkillDTO(skill.getId(), skill.getName(), skill.getDescription(), skill.getProficiency()))
+                    .collect(Collectors.toList());
 
-            userDTO.setSkills(skillNames);
+            userDTO.setSkills(skillDTOs);
 
             return ResponseEntity.ok("Login successful: " + user.getFullName());
         } catch (RuntimeException e) {

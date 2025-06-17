@@ -14,7 +14,7 @@ public class Skill {
 
     private String description;
 
-    private int proficiency;// You can represent it as a level 1–10
+    private String proficiency;// You can represent it as a level 1–10
 
 
     @ManyToOne
@@ -33,7 +33,7 @@ public class Skill {
     // Constructors
     public Skill() {}
 
-    public Skill(String name, String description, int proficiency) {
+    public Skill(String name, String description, String proficiency) {
         this.name = name;
         this.description = description;
         this.proficiency = proficiency;
@@ -65,11 +65,11 @@ public class Skill {
         this.description = description;
     }
 
-    public int getProficiency() {
+    public String getProficiency() {
         return proficiency;
     }
 
-    public void setProficiency(int proficiency) {
+    public void setProficiency(String proficiency) {
         this.proficiency = proficiency;
     }
 }

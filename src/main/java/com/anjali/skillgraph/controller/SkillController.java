@@ -9,21 +9,21 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/skills")
+@RequestMapping("/api/skills")
 public class SkillController {
 
     @Autowired
     private SkillService skillService;
 
-    @PostMapping
-    public ResponseEntity<SkillDTO> createSkill(@RequestBody SkillDTO skillDTO) {
-        SkillDTO created = skillService.createSkill(skillDTO);
+    @PostMapping("/add/{userId}")
+    public ResponseEntity<SkillDTO> createSkill(@PathVariable Long userId, @RequestBody SkillDTO skillDTO) {
+        SkillDTO created = skillService.createSkill(userId, skillDTO);
         return ResponseEntity.ok(created);
     }
 
-    @GetMapping
-    public ResponseEntity<List<SkillDTO>> getAllSkills() {
-        return ResponseEntity.ok(skillService.getAllSkills());
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<SkillDTO>> getSkillsByUser(@PathVariable Long userId) {
+        return ResponseEntity.ok(skillService.getSkillsByUser(userId));
     }
 
     @GetMapping("/{id}")
@@ -36,5 +36,11 @@ public class SkillController {
         skillService.deleteSkill(id);
         return ResponseEntity.ok("Skill deleted successfully");
     }
+    @PutMapping("/update/{skillId}")
+    public ResponseEntity<SkillDTO> updateSkill(@PathVariable Long skillId, @RequestBody SkillDTO skillDTO) {
+        SkillDTO updatedSkill = skillService.updateSkill(skillId, skillDTO);
+        return ResponseEntity.ok(updatedSkill);
+    }
+
 }
 

@@ -4,11 +4,11 @@ public class SkillDTO {
     private Long id;
     private String name;
     private String description;
-    private int proficiency;
+    private String proficiency;
 
     public SkillDTO() {}
 
-    public SkillDTO(Long id, String name, String description, int proficiency) {
+    public SkillDTO(Long id, String name, String description, String proficiency) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -41,11 +41,11 @@ public class SkillDTO {
         this.description = description;
     }
 
-    public int getProficiency() {
+    public String getProficiency() {
         return proficiency;
     }
 
-    public void setProficiency(int proficiency) {
+    public void setProficiency(String proficiency) {
         this.proficiency = proficiency;
     }
 }
