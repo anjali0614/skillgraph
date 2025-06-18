@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/skills")
+@RequestMapping("/api/users")
 public class SkillController {
 
     @Autowired
@@ -31,14 +31,45 @@ public class SkillController {
         return ResponseEntity.ok(skillService.getSkillById(id));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteSkill(@PathVariable Long id) {
-        skillService.deleteSkill(id);
-        return ResponseEntity.ok("Skill deleted successfully");
+    @GetMapping("/{userId}/skills/{skillId}")
+    public ResponseEntity<SkillDTO> getSkillByUserIdAndSkillId(
+            @PathVariable Long userId,
+            @PathVariable Long skillId) {
+        SkillDTO skillDTO = skillService.getSkillByUserIdAndSkillId(userId, skillId);
+        return ResponseEntity.ok(skillDTO);
     }
-    @PutMapping("/update/{skillId}")
-    public ResponseEntity<SkillDTO> updateSkill(@PathVariable Long skillId, @RequestBody SkillDTO skillDTO) {
-        SkillDTO updatedSkill = skillService.updateSkill(skillId, skillDTO);
+
+    @GetMapping("/{userId}/skills/search")
+    public ResponseEntity<List<SkillDTO>> searchSkills(
+            @PathVariable Long userId,
+            @RequestParam String keyword) {
+        List<SkillDTO> skills = skillService.searchSkillsByName(userId, keyword);
+        return ResponseEntity.ok(skills);
+    }
+
+    @GetMapping("/{userId}/skills/sorted")
+    public ResponseEntity<List<SkillDTO>> getSortedSkills(
+            @PathVariable("userId") Long userId,
+            @RequestParam(name = "order", defaultValue = "asc") String order) {
+        List<SkillDTO> skills = skillService.getSkillsSortedByProficiency(userId, order);
+        return ResponseEntity.ok(skills);
+    }
+
+
+    @DeleteMapping("/{userId}/skills/{skillId}")
+    public ResponseEntity<String> deleteSkill(
+            @PathVariable Long userId,
+            @PathVariable Long skillId) {
+        skillService.deleteSkill(userId, skillId);
+        return ResponseEntity.ok("Skill deleted successfully.");
+    }
+
+    @PutMapping("/{userId}/skills/{skillId}")
+    public ResponseEntity<SkillDTO> updateSkill(
+            @PathVariable Long userId,
+            @PathVariable Long skillId,
+            @RequestBody SkillDTO skillDTO) {
+        SkillDTO updatedSkill = skillService.updateSkill(userId, skillId, skillDTO);
         return ResponseEntity.ok(updatedSkill);
     }
 
