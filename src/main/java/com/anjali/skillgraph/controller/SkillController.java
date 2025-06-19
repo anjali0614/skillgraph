@@ -40,7 +40,7 @@ public class SkillController {
     }
 
     @GetMapping("/{userId}/skills/search")
-    public ResponseEntity<List<SkillDTO>> searchSkills(
+    public ResponseEntity<List<SkillDTO>> searchSkillsByName(
             @PathVariable Long userId,
             @RequestParam String keyword) {
         List<SkillDTO> skills = skillService.searchSkillsByName(userId, keyword);

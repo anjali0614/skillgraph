@@ -25,13 +25,18 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/users/register",
-                                          "/users/login",
-                                          "/api/auth/**",
-                                          "/users/skills"
+                                "/users/login",
+                                "/api/auth/**",
+                                "/users/skills",
+
+                                // ✅ Swagger URLs
+                                "/swagger-ui.html",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**"
                         ).permitAll() // ✅ allow login/register
                         .anyRequest().authenticated() // ❌ everything else blocked (for now)
                 )
-                .httpBasic(Customizer.withDefaults());
+                .formLogin(Customizer.withDefaults());
 
         return http.build();
     }
