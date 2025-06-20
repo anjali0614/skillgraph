@@ -67,6 +67,17 @@ public class UserController {
 //                .orElseGet(() -> ResponseEntity.notFound().build());
 //    }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
+        Optional<User> optionalUser = userService.getUserById(id);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            return ResponseEntity.ok(UserDTO.fromEntity(user));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @GetMapping("/test")
     public String testAPI() {
         return "API is working!";

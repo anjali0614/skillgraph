@@ -36,7 +36,7 @@ public class WebSecurityConfig {
                         ).permitAll() // ✅ allow login/register
                         .anyRequest().authenticated() // ❌ everything else blocked (for now)
                 )
-                .formLogin(Customizer.withDefaults());
+                .httpBasic(Customizer.withDefaults());
 
         return http.build();
     }

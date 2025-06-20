@@ -39,19 +39,24 @@ public class UserService {
         user.setUsername(userDTO.getUsername());
         user.setEmail(userDTO.getEmail());
         user.setFullName(userDTO.getFullName());
-        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));  // encode password
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        user.setLeetcodeId(userDTO.getLeetcodeId());
+        user.setGfgId(userDTO.getGfgId());
+        user.setCodeforcesId(userDTO.getCodeforcesId());  // encode password
 
         // Save user to DB
         User savedUser = userRepository.save(user);
 
         // Return response DTO (optional fields based on your constructor)
-        return new UserDTO(savedUser.getId(), savedUser.getUsername(), savedUser.getEmail());
+        return new UserDTO(savedUser.getId(), savedUser.getUsername(), savedUser.getEmail(),  savedUser.getLeetcodeId(),
+                savedUser.getGfgId(),
+                savedUser.getCodeforcesId());
     }
 
-    public Optional<User> getUserByEmail(String email) {
-        return userRepository.findByEmail(email);
-
+    public Optional<User> getUserById(Long id) {
+        return userRepository.findById(id);
     }
+
 
     public User loginUser(String identifier, String rawPassword) {
         Optional<User> optionalUser;
@@ -76,7 +81,7 @@ public class UserService {
                     .map(skill -> new com.anjali.skillgraph.dto.SkillDTO(skill.getId(), skill.getName(), skill.getDescription(), skill.getProficiency()))
                     .collect(Collectors.toList());
 
-            UserDTO response = new UserDTO(user.getId(), user.getFullName(), user.getEmail());
+            UserDTO response = new UserDTO(user.getId(), user.getFullName(), user.getEmail(), user.getLeetcodeId(), user.getGfgId(), user.getCodeforcesId());
             response.setUsername(user.getUsername());
             response.setSkills(skillDTOList);
 
