@@ -40,3 +40,16 @@
 .read-the-docs {
   color: #888;
 }
+
+/* src/styles/style.css ya src/App.css me likh do */
+body, html, #root {
+  margin: 0;
+  padding: 0;
+  width: 100%;     /* Pure screen ki width */
+  height: 100%;    /* Pure screen ki height (optional) */
+}
+
+div {
+  box-sizing: border-box;
+}
+
