@@ -11,33 +11,62 @@ function Login() {
   };
   
   return (
-    <div style={{ textAlign: "center", padding: "40px" }}>
+    <div style={styles.container}>
       <h2>Login</h2>
-      <form onSubmit={handleLogin}>
-        <div style={{ margin: "10px" }}>
-          <input
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-            style={{ padding: "8px", width: "200px" }}
-          />
-        </div>
-        <div style={{ margin: "10px" }}>
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            style={{ padding: "8px", width: "200px" }}
-          />
-        </div>
-        <button type="submit" style={{ padding: "10px 20px" }}>Login</button>
+      <form onSubmit={handleLogin} style={styles.form}>
+        <input
+          type="text"
+          placeholder="Enter your username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+          style={styles.input}
+        />
+        <input
+          type="password"
+          placeholder="Enter your password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          style={styles.input}
+        />
+        <button type="submit" style={styles.button}>
+          Login
+        </button>
       </form>
     </div>
   );
 }
+
+const styles = {
+  container: {
+    textAlign: "center",
+    padding: "40px",
+  },
+  form: {
+    display: "inline-block",
+    textAlign: "left",
+    padding: "20px",
+    backgroundColor: "#f9f9f9",
+    borderRadius: "8px",
+    boxShadow: "0px 0px 8px rgba(0,0,0,0.1)",
+  },
+  input: {
+    display: "block",
+    marginBottom: "15px",
+    padding: "8px",
+    fontSize: "16px",
+    width: "250px",
+  },
+  button: {
+    padding: "10px",
+    fontSize: "16px",
+    cursor: "pointer",
+    borderRadius: "5px",
+    border: "none",
+    backgroundColor: "#007BFF",
+    color: "white",
+  },
+};
 
 export default Login;
