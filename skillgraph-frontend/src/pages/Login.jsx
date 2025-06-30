@@ -1,14 +1,39 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [identifier, setIdentifier] = useState("");  
+  const [password, setPassword] = useState("");  
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    alert(`Logging in with ${username}`);
-    // yaha backend call karenge baad me
+   if (!identifier || !password) {
+      alert("Please fill in both fields.");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:8080/users/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" }, 
+        body: JSON.stringify({ identifier, password }),
+      });
+      if (response.ok) {
+        const message = await response.text();
+        alert(message);
+        navigate("/dashboard");
+      } else {
+        const errorText = await response.text();
+        setError(errorText || "Invalid username or password");
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+      setError("Something went wrong. Try again later.");
+    }
   };
+  
   
   return (
     <div style={styles.container}>

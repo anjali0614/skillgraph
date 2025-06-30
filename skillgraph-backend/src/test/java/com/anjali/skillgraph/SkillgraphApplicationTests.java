@@ -1,13 +1,12 @@
 package com.anjali.skillgraph;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootTest
-class SkillgraphApplicationTests {
-
-	@Test
-	void contextLoads() {
+@SpringBootApplication
+public class SkillgraphApplicationTests {
+	public static void main(String[] args) {
+		SpringApplication.run(SkillgraphApplication.class, args);
 	}
-
 }
+
